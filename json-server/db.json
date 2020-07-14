@@ -1,12 +1,6 @@
 {
   "chat1": [
     {
-      "id": "Old",
-      "name": "sasa",
-      "msg": "sdf",
-      "date": 1594661932232
-    },
-    {
       "name": "sasa",
       "msg": "sdfsdf",
       "date": 1594662533797,
@@ -19,7 +13,7 @@
       "id": "_tbHwzd"
     },
     {
-      "name": "sasa",
+      "name": "kek",
       "msg": "sd",
       "date": 1594662643870,
       "id": "nh6e-bx"
@@ -31,7 +25,7 @@
       "id": "Z5Qhd-m"
     },
     {
-      "name": "sasa",
+      "name": "lol",
       "msg": "sdf",
       "date": 1594662693600,
       "id": "y27WqHZ"
@@ -73,40 +67,28 @@
       "id": "V-ofLyg"
     },
     {
-      "name": "sasa",
-      "msg": "sdf4324sdf",
-      "date": 1594662815784,
-      "id": "M2Avhuy"
+      "name": "sass",
+      "msg": "sdf",
+      "id": 1594742437499,
+      "date": 1594742437499
     },
     {
-      "name": "sasa",
-      "msg": "wer",
-      "date": 1594662860262,
-      "id": "u-Hj6oP"
+      "name": "sass",
+      "msg": "fd",
+      "id": 1594742450656,
+      "date": 1594742450656
     },
     {
-      "name": "sasa",
-      "msg": "wersdf",
-      "date": 1594662869822,
-      "id": "xXDWozL"
+      "name": "sass",
+      "msg": "shshsh",
+      "id": 1594742476334,
+      "date": 1594742476334
     },
     {
-      "name": "sasa",
-      "msg": "df",
-      "date": 1594662897188,
-      "id": "d4QzQzZ"
-    },
-    {
-      "name": "sasa",
-      "msg": "few",
-      "date": 1594662925589,
-      "id": "eFhf-WK"
-    },
-    {
-      "name": "sasa",
-      "msg": "few213123",
-      "date": 1594662928752,
-      "id": "p6ujgjP"
+      "name": "sdf",
+      "msg": "sdf",
+      "id": 1594742751691,
+      "date": 1594742751691
     }
   ]
 }

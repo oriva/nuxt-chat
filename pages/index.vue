@@ -1,44 +1,45 @@
 <template>
 	<section class="container">
 		<div class="row justify-content-center align-items-center height-100">
-			<div class="col-7 px-0">
+			<div v-if="nickname===''">
+				<form v-on:submit.prevent="changeNick"
+					  class="input-group">
+					<input type="text" class="form-control" v-model="inputNick" placeholder="Введите ваш никнейм">
+					<button class="btn btn-primary">GO</button>
+				</form>
+			</div>
+			<div v-else
+				 class="col-7 px-0">
 				<div class="px-4 py-5 chat-box bg-white">
-
-					<!-- Sender Message-->
-					<div class="media w-50 mb-3"><img
-							src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"
-							alt="user" width="50" class="rounded-circle">
-						<div class="media-body ml-3">
-							<div class="bg-light rounded py-2 px-3 mb-2">
-								<p class="text-small mb-0 text-muted">Test, which is a new approach to have</p>
-							</div>
-							<p class="small text-muted">12:00 PM | Aug 13</p>
-						</div>
-					</div>
-
-					<!-- Reciever Message-->
-					<div class="media w-50 ml-auto mb-3">
-						<div class="media-body">
-							<div class="bg-primary rounded py-2 px-3 mb-2">
-								<p class="text-small mb-0 text-white">Apollo University, Delhi, India Test</p>
-							</div>
-							<p class="small text-muted">12:00 PM | Aug 13</p>
-						</div>
-					</div>
-
 					<div v-for="(msg, id) in arrMsg" :key="id"
-						 class="media w-50 ml-auto mb-3">
+						 class="media w-50 mb-3"
+						 :class="{ 'ml-auto': nickname===msg.name }">
 						<div class="media-body">
-							<div class="bg-primary rounded py-2 px-3 mb-2">
-								<p class="text-small mb-0 text-white">{{ msg.msg }}</p>
+							<div class="mb-2"
+								 :class="{
+								 'text-right': nickname===msg.name,
+								 }"
+							>{{ msg.name }}
 							</div>
-							<p class="small text-muted">{{ new Date(msg.date) }}</p>
+							<div class="rounded py-2 px-3 mb-2"
+								 :class="{
+								 'bg-primary': nickname===msg.name,
+								 'bg-light': nickname!==msg.name
+								 }">
+								<p class="text-small mb-0 text-white"
+								   :class="{
+									 'text-white': nickname===msg.name,
+									 'text-muted': nickname!==msg.name
+									 }"
+								>{{ msg.msg }}</p>
+							</div>
+							<p class="small text-muted">{{ new Date(msg.date).toLocaleString() }}</p>
 						</div>
 					</div>
 
 				</div>
 
-				<!-- Typing area -->
+			<!-- Typing area -->
 				<form action="#" class="bg-light" v-on:submit.prevent="sendMessage">
 					<div class="input-group">
 						<input type="text" placeholder="Введите сообщение" aria-describedby="button-addon2"
@@ -61,28 +62,36 @@
         name: 'chat',
         data () {
           return {
-              nickname: 'sasa',
+              nickname: '',
               arrMsg: '',
-              inputVal: ''
+              inputVal: '',
+              inputNick: ''
 		  }
 		},
         mounted: function () {
-            setInterval(()=>{
+            this.getAllMsg()
+        },
+		methods: {
+            showChat: function () {
+                this.scrollBottom()
+                setInterval(() => {
+                    this.getAllMsg()
+                }, 5000)
+            },
+            getAllMsg: function (action) {
                 this.$axios.$get('http://localhost:4000/chat1')
                     .then((response) => {
-                        // handle success
                         this.arrMsg = response
-                        console.log(this.arrMsg)
+                        if (action) {
+                            action()
+                        }
                     })
                     .catch((error) => {
                         // handle error
                         console.log(error)
                     })
-            }, 5000)
-        },
-		methods: {
+            },
             sendMessage: function () {
-                console.log(this.inputVal)
                 this.$axios.$post('http://localhost:4000/chat1', {
                     name: this.nickname,
                     msg: this.inputVal
@@ -91,9 +100,9 @@
                         "Content-Type": "application/json"
                     }
                 }).then((response) => {
+                    this.inputVal = ''
                     this.scrollBottom()
                     this.arrMsg.push(response)
-                    console.log(response)
                 })
                     .catch((error) => {
                         // handle error
@@ -104,6 +113,13 @@
                 setTimeout(() => {
 					document.getElementsByClassName('chat-box')[0].scrollTop = document.getElementsByClassName('chat-box')[0].scrollHeight
 				}, 100)
+            },
+            changeNick: function () {
+                console.log(this.inputNick)
+                if (this.inputNick !== '') {
+                    this.nickname = this.inputNick
+                    this.showChat()
+                }
             }
 		}
     }
