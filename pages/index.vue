@@ -32,17 +32,17 @@
 							<div class="bg-primary rounded py-2 px-3 mb-2">
 								<p class="text-small mb-0 text-white">{{ msg.msg }}</p>
 							</div>
-							<p class="small text-muted">{{ msg.date }}</p>
+							<p class="small text-muted">{{ new Date(msg.date) }}</p>
 						</div>
 					</div>
 
 				</div>
 
 				<!-- Typing area -->
-				<form action="#" class="bg-light">
+				<form action="#" class="bg-light" v-on:submit.prevent="sendMessage">
 					<div class="input-group">
-						<input type="text" placeholder="Type a message" aria-describedby="button-addon2"
-							   class="form-control rounded-0 border-0 py-4 bg-light">
+						<input type="text" placeholder="Введите сообщение" aria-describedby="button-addon2"
+							   class="form-control rounded-0 border-0 py-4 bg-light" v-model="inputVal">
 						<div class="input-group-append">
 							<button id="button-addon2" type="submit" class="btn btn-link"><i
 									class="fa fa-paper-plane"></i></button>
@@ -62,7 +62,8 @@
         data () {
           return {
               nickname: 'sasa',
-              arrMsg: ''
+              arrMsg: '',
+              inputVal: ''
 		  }
 		},
         mounted: function () {
@@ -77,12 +78,33 @@
                         // handle error
                         console.log(error)
                     })
-            },2000)
+            }, 5000)
         },
-        components: {
-
-		},
 		methods: {
+            sendMessage: function () {
+                console.log(this.inputVal)
+                this.$axios.$post('http://localhost:4000/chat1', {
+                    name: this.nickname,
+                    msg: this.inputVal
+                }, {
+                    header: {
+                        "Content-Type": "application/json"
+                    }
+                }).then((response) => {
+                    this.scrollBottom()
+                    this.arrMsg.push(response)
+                    console.log(response)
+                })
+                    .catch((error) => {
+                        // handle error
+                        console.log(error)
+                    })
+            },
+            scrollBottom: function () {
+                setTimeout(() => {
+					document.getElementsByClassName('chat-box')[0].scrollTop = document.getElementsByClassName('chat-box')[0].scrollHeight
+				}, 100)
+            }
 		}
     }
 </script>
